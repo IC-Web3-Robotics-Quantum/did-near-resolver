@@ -4,7 +4,7 @@ import { Account, connect, keyStores } from "near-api-js";
 type NetworkConfig = {
   rpcUrl: string;
   networkId: string;
-  contractId: string;
+  contractId?: string;
 }
 
 type NearResolverOptions = {
@@ -27,7 +27,7 @@ export class NearDIDResolver {
         return n;
       }, {} as Record<string, NetworkConfig>) : {};
       const defaultNetwork = options.networks[0];
-      this.CONTRACT_ID = defaultNetwork.contractId;
+      this.CONTRACT_ID = defaultNetwork.contractId!;
       this.RPC_URL = defaultNetwork.rpcUrl;
       this.NETWORK_ID = defaultNetwork.networkId;
     } else {
@@ -118,6 +118,9 @@ export class NearDIDResolver {
       }
     } else if (this.isBase58Did(did)) {
       const near = await this.getNear(network);
+      if (!network.contractId) {
+        throw new Error(`Contract ID is required to resolve did:near for base58 identifiers`);
+      }
       const account: Account = await near.account(network.contractId);
 
       const owner: string | null = await account.viewFunction({

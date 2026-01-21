@@ -1,6 +1,6 @@
 {
   "name": "@kaytrust/did-near-resolver",
-  "version": "1.4.9",
+  "version": "1.4.10",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -12,11 +12,14 @@
   ],
   "keywords": [
     "typescript",
-    "libreria"
+    "library",
+    "did",
+    "near",
+    "blockchain"
   ],
-  "author": "Jerson Miranda (NTT Data)",
+  "author": "Jerson Miranda (NTT Data), Geiner Grandez Valle (NTT Data)",
   "license": "ISC",
-  "description": "",
+  "description": "A DID resolver for the NEAR blockchain.",
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.17",
