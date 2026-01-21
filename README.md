@@ -42,7 +42,7 @@ const nearResolver = getResolver({
       contractId: 'registry.contract.testnet' // Smart contract for Base58 DIDs (optional)
     },
     {
-      networkId: 'near',
+      networkId: 'near', // Use 'near' for mainnet (or 'mainnet', both are equivalent)
       rpcUrl: 'https://rpc.mainnet.near.org',
       contractId: 'registry.contract.near' // (optional)
     }

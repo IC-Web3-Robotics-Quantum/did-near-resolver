@@ -109,7 +109,7 @@ export class NearDIDResolver {
     const identifier = did.replace('did:near:', '');
     let publicKeyBase58List:string[] = [];
 
-    const networkId = this.getNetworkIdFromDid(did);
+    const networkId = this.evaluateNetworkId(this.getNetworkIdFromDid(did));
 
     const network = this.networks[networkId];
 
