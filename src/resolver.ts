@@ -23,24 +23,31 @@ export class NearDIDResolver {
     if (typeof contract_id === "object") {
       const options = contract_id;
       this.networks = options.networks ? options.networks.reduce((n, network)=>{
-        n[network.networkId] = network;
+        n[this.evaluateNetworkId(network.networkId)] = {...network, networkId: this.evaluateNetworkId(network.networkId)};
         return n;
       }, {} as Record<string, NetworkConfig>) : {};
       const defaultNetwork = options.networks[0];
       this.CONTRACT_ID = defaultNetwork.contractId!;
       this.RPC_URL = defaultNetwork.rpcUrl;
-      this.NETWORK_ID = defaultNetwork.networkId;
+      this.NETWORK_ID = this.evaluateNetworkId(defaultNetwork.networkId);
     } else {
       this.CONTRACT_ID = contract_id;
       this.RPC_URL = rpc_url;
-      this.NETWORK_ID = network_id;
+      this.NETWORK_ID = this.evaluateNetworkId(network_id);
       this.networks = {};
       this.networks[this.NETWORK_ID] = {
         contractId: this.CONTRACT_ID,
-        networkId: this.NETWORK_ID,
+        networkId: this.evaluateNetworkId(this.NETWORK_ID),
         rpcUrl: this.RPC_URL,
       };
     }
+  }
+
+  private evaluateNetworkId(networkId: string): string {
+    if (networkId.trim() === "near") {
+      return 'mainnet';
+    }
+    return networkId;
   }
 
   private isNamedAccount(did: string): boolean {
@@ -80,7 +87,7 @@ export class NearDIDResolver {
 
   getNetworkIdFromAccountId(accountId: string): string {
     if (accountId.endsWith('.near')) {
-      return 'near';
+      return 'mainnet';
     } else {
       return 'testnet';
     }
